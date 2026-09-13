@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RAG Library Lab</title>
+  <style>
+    :root {
+      --bg: #f5f7fb;
+      --panel: rgba(255,255,255,.86);
+      --ink: #172033;
+      --muted: #687087;
+      --line: #dfe4ef;
+      --brand: #6658e8;
+      --brand-2: #24a8a0;
+      --soft: #eeecff;
+      --success: #13856d;
+      --warning: #c87818;
+      --shadow: 0 18px 55px rgba(46,52,84,.10);
+      --radius: 22px;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 10% 0%, rgba(102,88,232,.12), transparent 28%),
+        radial-gradient(circle at 90% 5%, rgba(36,168,160,.12), transparent 24%),
+        var(--bg);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    button, input, select, textarea { font: inherit; }
+    button { cursor: pointer; }
+    .shell { width: min(1180px, calc(100% - 32px)); margin: 0 auto; padding: 34px 0 54px; }
+    header { display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; margin-bottom: 26px; }
+    .eyebrow { margin: 0 0 8px; color: var(--brand); font-size: .78rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+    h1 { margin: 0; font-size: clamp(2rem, 5vw, 3.8rem); line-height: .98; letter-spacing: -.055em; }
+    .lede { max-width: 680px; margin: 14px 0 0; color: var(--muted); line-height: 1.6; }
+    .library-mark { min-width: 140px; padding: 13px 16px; border: 1px solid var(--line); border-radius: 16px; background: var(--panel); box-shadow: var(--shadow); }
+    .library-mark strong { display: block; font-size: 1.05rem; }
+    .library-mark span { color: var(--muted); font-size: .82rem; }
+
+    .progress { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; margin-bottom: 20px; }
+    .step-tab { min-height: 64px; padding: 10px; border: 1px solid var(--line); border-radius: 14px; color: var(--muted); background: rgba(255,255,255,.65); text-align: left; transition: .2s ease; }
+    .step-tab span { display: block; margin-bottom: 4px; font-size: .72rem; font-weight: 800; }
+    .step-tab strong { font-size: .86rem; }
+    .step-tab.active { border-color: var(--brand); color: var(--ink); background: var(--soft); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(102,88,232,.13); }
+    .step-tab.done { border-color: rgba(19,133,109,.35); color: var(--success); }
+
+    .workspace { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(300px, .75fr); gap: 20px; align-items: start; }
+    .panel { border: 1px solid rgba(223,228,239,.92); border-radius: var(--radius); background: var(--panel); box-shadow: var(--shadow); backdrop-filter: blur(14px); }
+    .stage { min-height: 560px; padding: clamp(20px, 4vw, 34px); }
+    .stage-head { display: flex; align-items: center; gap: 13px; margin-bottom: 24px; }
+    .number { display: grid; place-items: center; width: 38px; height: 38px; flex: 0 0 auto; border-radius: 12px; color: #fff; background: var(--brand); font-weight: 800; }
+    h2 { margin: 0; font-size: 1.35rem; letter-spacing: -.02em; }
+    .stage-head p { margin: 3px 0 0; color: var(--muted); font-size: .9rem; }
+    .field-label { display: block; margin: 16px 0 8px; font-size: .82rem; font-weight: 750; }
+    textarea, input, select { width: 100%; border: 1px solid var(--line); border-radius: 13px; background: #fff; color: var(--ink); outline: none; }
+    textarea:focus, input:focus, select:focus { border-color: var(--brand); box-shadow: 0 0 0 4px rgba(102,88,232,.10); }
+    textarea { min-height: 92px; padding: 13px 14px; resize: vertical; line-height: 1.5; }
+    input, select { min-height: 44px; padding: 0 12px; }
+    .controls { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .actions { display: flex; justify-content: space-between; gap: 12px; margin-top: 28px; }
+    .btn { min-height: 44px; padding: 0 17px; border: 0; border-radius: 12px; font-weight: 750; }
+    .btn-primary { color: #fff; background: var(--brand); box-shadow: 0 8px 20px rgba(102,88,232,.22); }
+    .btn-secondary { color: var(--ink); background: #fff; border: 1px solid var(--line); }
+    .btn:disabled { cursor: not-allowed; opacity: .42; box-shadow: none; }
+    .hint { padding: 13px 15px; border-left: 3px solid var(--brand-2); border-radius: 0 12px 12px 0; background: rgba(36,168,160,.08); color: #385e62; font-size: .88rem; line-height: 1.5; }
+
+    .cards { display: grid; gap: 10px; margin-top: 14px; }
+    .doc-card, .chunk-card, .result-card { padding: 14px; border: 1px solid var(--line); border-radius: 14px; background: #fff; }
+    .doc-meta, .result-top { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 7px; }
+    .tag { display: inline-flex; align-items: center; min-height: 24px; padding: 0 8px; border-radius: 999px; color: #5549ce; background: var(--soft); font-size: .72rem; font-weight: 800; }
+    .score { color: var(--success); font-size: .78rem; font-weight: 800; }
+    .doc-card p, .chunk-card p, .result-card p { margin: 0; color: #414a61; font-size: .88rem; line-height: 1.5; }
+    .chunk-card { display: grid; grid-template-columns: 48px 1fr; gap: 12px; }
+    .chunk-id { display: grid; place-items: center; height: 40px; border-radius: 10px; color: var(--brand); background: var(--soft); font-size: .75rem; font-weight: 850; }
+    .vector { margin-top: 8px; color: var(--muted); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .74rem; }
+    mark { padding: 0 2px; color: inherit; background: #fff0a6; }
+
+    .side { overflow: hidden; }
+    .side-section { padding: 21px; border-bottom: 1px solid var(--line); }
+    .side-section:last-child { border-bottom: 0; }
+    .side h3 { margin: 0 0 12px; font-size: .92rem; }
+    .analogy { display: grid; grid-template-columns: 34px 1fr; gap: 10px; align-items: start; margin: 11px 0; }
+    .analogy-icon { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 10px; background: var(--soft); }
+    .analogy strong { display: block; font-size: .84rem; }
+    .analogy span { display: block; margin-top: 2px; color: var(--muted); font-size: .78rem; line-height: 1.35; }
+    .pipeline { position: relative; display: grid; gap: 10px; }
+    .pipe { display: flex; gap: 10px; align-items: center; padding: 9px 11px; border-radius: 11px; color: var(--muted); background: rgba(245,247,251,.9); font-size: .8rem; transition: .2s; }
+    .pipe-dot { width: 9px; height: 9px; border-radius: 50%; background: #c9cedb; }
+    .pipe.active { color: var(--ink); background: var(--soft); font-weight: 750; }
+    .pipe.active .pipe-dot { background: var(--brand); box-shadow: 0 0 0 5px rgba(102,88,232,.12); }
+    .pipe.done .pipe-dot { background: var(--success); }
+    .meter-row { display: flex; justify-content: space-between; margin: 10px 0 7px; color: var(--muted); font-size: .78rem; }
+    .meter { height: 8px; overflow: hidden; border-radius: 999px; background: #e8ebf2; }
+    .meter > div { width: 0; height: 100%; background: linear-gradient(90deg, var(--brand), var(--brand-2)); transition: width .45s ease; }
+    .lesson { min-height: 74px; margin-top: 11px; color: #465066; font-size: .84rem; line-height: 1.5; }
+    .answer-box { padding: 20px; border-radius: 16px; background: linear-gradient(135deg, #f0efff, #e9f8f6); }
+    .answer-box h3 { margin: 0 0 8px; }
+    .answer-box p { margin: 0; line-height: 1.65; }
+    .source-list { margin: 14px 0 0; padding-left: 20px; color: var(--muted); font-size: .82rem; }
+    .prompt-preview { padding: 16px; border-radius: 14px; color: #dce4ff; background: #20263a; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .78rem; line-height: 1.55; white-space: pre-wrap; }
+    .legend { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+    .legend span { padding: 5px 8px; border: 1px solid var(--line); border-radius: 8px; color: var(--muted); background: #fff; font-size: .72rem; }
+    footer { margin-top: 18px; color: var(--muted); font-size: .78rem; text-align: center; }
+    @media (max-width: 850px) {
+      header { flex-direction: column; }
+      .library-mark { display: none; }
+      .progress { grid-template-columns: repeat(3, 1fr); }
+      .workspace { grid-template-columns: 1fr; }
+      .stage { min-height: auto; }
+    }
+    @media (max-width: 520px) {
+      .shell { width: min(100% - 20px, 1180px); padding-top: 22px; }
+      .progress { grid-template-columns: repeat(2, 1fr); }
+      .controls { grid-template-columns: 1fr; }
+      .step-tab { min-height: 58px; }
+      .actions { flex-wrap: wrap; }
+    }
+    @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; transition: none !important; } }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header>
+      <div>
+        <p class="eyebrow">Interactive explainer</p>
+        <h1>RAG Library Lab</h1>
+        <p class="lede">Build a tiny knowledge base, retrieve evidence, and watch an AI answer from context. Think of it as a librarian plus a writer—with receipts.</p>
+      </div>
+      <div class="library-mark" aria-label="Library analogy"><strong>📚 Library mode</strong><span>Search words + meaning</span></div>
+    </header>
+
+    <nav class="progress" aria-label="RAG steps" id="stepTabs"></nav>
+
+    <div class="workspace">
+      <section class="panel stage" id="stage" aria-live="polite"></section>
+
+      <aside class="panel side">
+        <div class="side-section">
+          <h3>Library analogy</h3>
+          <div class="analogy"><div class="analogy-icon">📄</div><div><strong>Documents</strong><span>Books and trusted reference material</span></div></div>
+          <div class="analogy"><div class="analogy-icon">🧩</div><div><strong>Chunks</strong><span>Pages or passages small enough to find</span></div></div>
+          <div class="analogy"><div class="analogy-icon">🧭</div><div><strong>Embeddings</strong><span>A meaning-based map of every passage</span></div></div>
+          <div class="analogy"><div class="analogy-icon">✍️</div><div><strong>LLM</strong><span>A writer who answers using retrieved passages</span></div></div>
+        </div>
+        <div class="side-section">
+          <h3>Live pipeline</h3>
+          <div class="pipeline" id="pipeline"></div>
+          <div class="meter-row"><span>RAG progress</span><strong id="meterLabel">0%</strong></div>
+          <div class="meter"><div id="meterFill"></div></div>
+          <div class="lesson" id="lesson"></div>
+        </div>
+      </aside>
+    </div>
+    <footer>This is a teaching simulation: vectors and generation are simplified, but the architecture is accurate.</footer>
+  </main>
+
+  <script>
+    const steps = [
+      { short: 'Source', title: 'Load documents' },
+      { short: 'Prepare', title: 'Chunk content' },
+      { short: 'Index', title: 'Create embeddings' },
+      { short: 'Ask', title: 'Enter a query' },
+      { short: 'Retrieve', title: 'Find evidence' },
+      { short: 'Generate', title: 'Build the answer' }
+    ];
+
+    const docs = [
+      { id: 'A', title: 'The Wild North', author: 'Maya Chen', year: 2024, text: 'A lone hiker survives a winter in northern Canada by building shelter, rationing food, and reading the weather.' },
+      { id: 'B', title: 'Castaway Journal', author: 'Owen Brooks', year: 2021, text: 'After a shipwreck, one sailor lives alone on a remote island and learns to find water, signal aircraft, and manage isolation.' },
+      { id: 'C', title: 'Urban Gardening', author: 'Priya Shah', year: 2025, text: 'A practical guide to growing herbs and vegetables in small city apartments using balconies and window light.' },
+      { id: 'D', title: 'Teams Under Pressure', author: 'Maya Chen', year: 2026, text: 'Research on how teams communicate, share responsibility, and make decisions during high-pressure workplace incidents.' }
+    ];
+
+    const state = { step: 0, chunkSize: 'sentence', search: 'hybrid', topK: 2, query: 'Which books explore people surviving alone in extreme conditions?', results: [] };
+    const lessons = [
+      'RAG starts with trusted source material. Freshness matters only when the subject changes over time.',
+      'Chunking balances precision and context. Huge chunks add noise; tiny chunks can lose meaning.',
+      'Documents are embedded before users search. The user query is embedded later using the same model.',
+      'The query can be searched by exact words, metadata, semantic meaning—or a hybrid of all three.',
+      'Retrieval happens before prompt augmentation. The best matching chunks become evidence.',
+      'The augmented prompt contains instructions, the user question, and retrieved context. Then the LLM writes.'
+    ];
+
+    function escapeHTML(value) {
+      return String(value).replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
+    }
+
+    function pseudoVector(text) {
+      const words = text.toLowerCase().match(/[a-z]+/g) || [];
+      const features = ['alone','survive','extreme','team','garden'];
+      return features.map(term => {
+        const family = { alone:['alone','lone','isolation'], survive:['survive','shelter','water','shipwreck'], extreme:['winter','remote','pressure'], team:['teams','communicate','workplace'], garden:['garden','herbs','vegetables'] }[term];
+        const hits = words.filter(w => family.includes(w)).length;
+        return Math.min(.99, .08 + hits * .29).toFixed(2);
+      });
+    }
+
+    function scoreDoc(doc, query, method) {
+      const q = query.toLowerCase().match(/[a-z]+/g) || [];
+      const hay = `${doc.title} ${doc.author} ${doc.text}`.toLowerCase();
+      const stop = new Set(['which','books','the','a','an','of','in','to','and','people','explore']);
+      const keywords = q.filter(w => !stop.has(w));
+      const lexical = keywords.reduce((n,w) => n + (hay.includes(w) ? 1 : 0), 0) / Math.max(1, keywords.length);
+      const concepts = {
+        surviving: ['survives','shelter','shipwreck','find water'], survive: ['survives','shelter','shipwreck'],
+        alone: ['lone','alone','isolation','remote'], extreme: ['winter','remote','shipwreck','pressure'],
+        conditions: ['winter','island','weather','pressure'], author: [doc.author.toLowerCase()]
+      };
+      let semanticHits = 0;
+      keywords.forEach(w => { if ((concepts[w] || []).some(term => hay.includes(term))) semanticHits++; });
+      const semantic = semanticHits / Math.max(1, keywords.length);
+      const metadata = hay.includes(query.toLowerCase()) ? 1 : 0;
+      if (method === 'keyword') return lexical;
+      if (method === 'semantic') return semantic * .9 + lexical * .1;
+      return semantic * .55 + lexical * .35 + metadata * .1;
+    }
+
+    function retrieve() {
+      state.results = docs.map(doc => ({ ...doc, score: scoreDoc(doc, state.query, state.search) }))
+        .sort((a,b) => b.score - a.score).slice(0, state.topK);
+    }
+
+    function renderChrome() {
+      document.getElementById('stepTabs').innerHTML = steps.map((s,i) => `<button class="step-tab ${i===state.step?'active':''} ${i<state.step?'done':''}" data-step="${i}" ${i>state.step+1?'disabled':''}><span>0${i+1}</span><strong>${s.title}</strong></button>`).join('');
+      document.querySelectorAll('.step-tab').forEach(btn => btn.onclick = () => { state.step = Number(btn.dataset.step); if (state.step >= 4) retrieve(); render(); });
+      document.getElementById('pipeline').innerHTML = steps.map((s,i) => `<div class="pipe ${i===state.step?'active':''} ${i<state.step?'done':''}"><span class="pipe-dot"></span>${s.short}: ${s.title}</div>`).join('');
+      const pct = Math.round((state.step / (steps.length - 1)) * 100);
+      document.getElementById('meterFill').style.width = `${pct}%`;
+      document.getElementById('meterLabel').textContent = `${pct}%`;
+      document.getElementById('lesson').textContent = lessons[state.step];
+    }
+
+    const head = (n,title,sub) => `<div class="stage-head"><div class="number">${n}</div><div><h2>${title}</h2><p>${sub}</p></div></div>`;
+    const actions = (back=true, next='Continue') => `<div class="actions"><button class="btn btn-secondary" id="back" ${back?'':'disabled'}>← Back</button><button class="btn btn-primary" id="next">${next} →</button></div>`;
+
+    function stageOne() {
+      return `${head(1,'Load the source documents','What the system is allowed to know')}
+        <div class="hint"><strong>Reality check:</strong> A database does not have to be “always updated.” But for changing facts, an old source creates an old answer.</div>
+        <div class="cards">${docs.map(d => `<article class="doc-card"><div class="doc-meta"><strong>${d.title}</strong><span class="tag">${d.year}</span></div><p>${d.text}</p><div class="legend"><span>Author: ${d.author}</span><span>Document ${d.id}</span></div></article>`).join('')}</div>${actions(false,'Chunk documents')}`;
+    }
+
+    function stageTwo() {
+      const chunkText = state.chunkSize === 'sentence' ? docs.map(d => d.text) : docs.map(d => `${d.title} — ${d.text}`);
+      return `${head(2,'Split documents into chunks','Turn large sources into retrievable passages')}
+        <div class="controls"><div><label class="field-label" for="chunkSize">Chunking strategy</label><select id="chunkSize"><option value="sentence" ${state.chunkSize==='sentence'?'selected':''}>Sentence-sized chunks</option><option value="section" ${state.chunkSize==='section'?'selected':''}>Title + passage chunks</option></select></div><div><span class="field-label">Why chunk?</span><div class="hint">Smaller passages improve retrieval precision while preserving enough context.</div></div></div>
+        <div class="cards">${chunkText.map((t,i) => `<article class="chunk-card"><div class="chunk-id">C${i+1}</div><div><strong>${docs[i].title}</strong><p>${t}</p></div></article>`).join('')}</div>${actions()}`;
+    }
+
+    function stageThree() {
+      return `${head(3,'Create and store embeddings','Represent the meaning of every chunk as numbers')}
+        <div class="hint">These five numbers are a simplified meaning map. Real embedding models commonly produce hundreds or thousands of dimensions.</div>
+        <div class="legend"><span>alone</span><span>survival</span><span>extreme</span><span>teamwork</span><span>gardening</span></div>
+        <div class="cards">${docs.map((d,i) => `<article class="chunk-card"><div class="chunk-id">C${i+1}</div><div><strong>${d.title}</strong><p>${d.text}</p><div class="vector">[ ${pseudoVector(d.text).join(' · ')} ]</div></div></article>`).join('')}</div>${actions()}`;
+    }
+
+    function stageFour() {
+      return `${head(4,'Ask a question','Now the query enters the retrieval pipeline')}
+        <label class="field-label" for="query">User query</label><textarea id="query">${escapeHTML(state.query)}</textarea>
+        <div class="controls"><div><label class="field-label" for="searchMode">Retrieval method</label><select id="searchMode"><option value="keyword" ${state.search==='keyword'?'selected':''}>Keyword / metadata</option><option value="semantic" ${state.search==='semantic'?'selected':''}>Semantic vector search</option><option value="hybrid" ${state.search==='hybrid'?'selected':''}>Hybrid search</option></select></div><div><label class="field-label" for="topK">Number of chunks (Top K)</label><select id="topK"><option value="1" ${state.topK===1?'selected':''}>1</option><option value="2" ${state.topK===2?'selected':''}>2</option><option value="3" ${state.topK===3?'selected':''}>3</option></select></div></div>
+        <div class="hint" style="margin-top:16px"><strong>Try this:</strong> Compare keyword and semantic search. “Surviving” does not exactly match “survives,” “shipwreck,” or “shelter,” but meaning-based retrieval can connect them.</div>${actions(true,'Retrieve evidence')}`;
+    }
+
+    function highlighted(text, query) {
+      const words = (query.toLowerCase().match(/[a-z]{4,}/g) || []).filter(w => !['which','books','people'].includes(w));
+      let result = escapeHTML(text);
+      words.forEach(w => { result = result.replace(new RegExp(`(${w.slice(0,6)}\\w*)`,'ig'), '<mark>$1</mark>'); });
+      return result;
+    }
+
+    function stageFive() {
+      const queryVec = pseudoVector(state.query);
+      return `${head(5,'Retrieve the best evidence','Compare the query with the indexed chunks')}
+        <div class="hint"><strong>${state.search[0].toUpperCase()+state.search.slice(1)} retrieval:</strong> The query vector is <span class="vector">[ ${queryVec.join(' · ')} ]</span>. Higher scores mean a closer simulated match.</div>
+        <div class="cards">${state.results.map((d,i) => `<article class="result-card"><div class="result-top"><strong>#${i+1} ${d.title}</strong><span class="score">${Math.round(d.score*100)}% match</span></div><p>${highlighted(d.text,state.query)}</p><div class="legend"><span>${d.author}</span><span>${d.year}</span><span>Chunk C${docs.findIndex(x=>x.id===d.id)+1}</span></div></article>`).join('')}</div>
+        <div class="hint" style="margin-top:14px">Retrieval produces evidence—not the final answer. Next, the evidence is inserted into the prompt.</div>${actions(true,'Augment & generate')}`;
+    }
+
+    function stageSix() {
+      const context = state.results.map((d,i) => `[Source ${i+1}: ${d.title}] ${d.text}`).join('\n');
+      const answer = state.results.some(d=>d.id==='A') && state.results.some(d=>d.id==='B')
+        ? 'The Wild North and Castaway Journal both explore people surviving alone in extreme conditions. The first follows a lone hiker through a northern winter; the second follows a shipwrecked sailor on a remote island.'
+        : state.results[0]?.id === 'A' ? 'The Wild North explores a lone hiker surviving a harsh northern winter through shelter, food rationing, and weather awareness.'
+        : state.results[0]?.id === 'B' ? 'Castaway Journal explores a shipwrecked sailor surviving alone on a remote island while managing water, rescue signals, and isolation.'
+        : 'The retrieved context does not provide strong evidence for an answer. A better query or retrieval method may be needed.';
+      return `${head(6,'Augment the prompt and generate','The LLM writes only after retrieval')}
+        <label class="field-label">What the LLM receives</label><div class="prompt-preview">SYSTEM: Answer only from the supplied context. Cite the sources.\n\nCONTEXT:\n${escapeHTML(context)}\n\nUSER QUESTION:\n${escapeHTML(state.query)}</div>
+        <label class="field-label">Generated answer</label><div class="answer-box"><h3>Answer</h3><p>${answer}</p><ol class="source-list">${state.results.map(d=>`<li>${d.title} — ${d.author}, ${d.year}</li>`).join('')}</ol></div>
+        <div class="hint" style="margin-top:16px"><strong>The filled gap:</strong> embeddings support retrieval; they do not generate the answer. Retrieval → augmentation → generation is the correct order.</div>${actions(true,'Run again')}`;
+    }
+
+    function bindStage() {
+      const back = document.getElementById('back');
+      const next = document.getElementById('next');
+      if (back) back.onclick = () => { state.step = Math.max(0,state.step-1); render(); };
+      if (next) next.onclick = () => { state.step = state.step === 5 ? 0 : state.step+1; if (state.step >= 4) retrieve(); render(); };
+      const chunkSize = document.getElementById('chunkSize');
+      if (chunkSize) chunkSize.onchange = e => { state.chunkSize = e.target.value; render(); };
+      const query = document.getElementById('query');
+      if (query) query.oninput = e => state.query = e.target.value;
+      const searchMode = document.getElementById('searchMode');
+      if (searchMode) searchMode.onchange = e => state.search = e.target.value;
+      const topK = document.getElementById('topK');
+      if (topK) topK.onchange = e => state.topK = Number(e.target.value);
+    }
+
+    function render() {
+      renderChrome();
+      const views = [stageOne,stageTwo,stageThree,stageFour,stageFive,stageSix];
+      document.getElementById('stage').innerHTML = views[state.step]();
+      bindStage();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    retrieve();
+    render();
+  </script>
+</body>
+</html>
