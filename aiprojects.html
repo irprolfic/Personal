@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101522">
+  <meta name="description"
+        content="Rahul Krishna Iyer's product portfolio: ProofFeed and Session Intent Anchor.">
+
+  <title>Rahul Krishna Iyer | Product Portfolio</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background: #101522;
+    }
+
+    body {
+      margin: 0;
+      background: #101522;
+      color: #f5f7fc;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 16px;
+      line-height: 1.75;
+    }
+
+    a {
+      color: #90ebc5;
+      text-underline-offset: 4px;
+    }
+
+    a:focus-visible {
+      outline: 3px solid #ffd080;
+      outline-offset: 5px;
+    }
+
+    .container {
+      width: min(1100px, calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    header {
+      background: #151d2d;
+      border-bottom: 1px solid #36435b;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      padding: 22px 0;
+    }
+
+    .brand {
+      color: #ffffff;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .nav-links a {
+      color: #d6dff0;
+      font-size: 14px;
+      text-decoration: none;
+    }
+
+    .nav-links a:hover {
+      color: #90ebc5;
+    }
+
+    h1, h2, h3 {
+      color: #ffffff;
+      line-height: 1.2;
+      letter-spacing: -0.035em;
+    }
+
+    h1 {
+      margin: 18px 0 24px;
+      font-size: clamp(40px, 6vw, 72px);
+    }
+
+    h2 {
+      margin: 0 0 20px;
+      font-size: clamp(30px, 4vw, 44px);
+    }
+
+    h3 {
+      margin: 0 0 12px;
+      font-size: 23px;
+    }
+
+    p {
+      margin: 0 0 18px;
+      color: #c3cee0;
+    }
+
+    .eyebrow {
+      margin-bottom: 16px;
+      color: #90ebc5;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .hero {
+      padding: 78px 0 60px;
+    }
+
+    .hero h1 span {
+      color: #90ebc5;
+    }
+
+    .lead {
+      max-width: 790px;
+      font-size: 20px;
+      line-height: 1.8;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 24px 0;
+    }
+
+    .tag {
+      padding: 6px 12px;
+      background: #202c42;
+      border: 1px solid #425471;
+      border-radius: 30px;
+      color: #e1e8f5;
+      font-size: 12px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 24px;
+    }
+
+    .project-card {
+      overflow: hidden;
+      background: #192337;
+      border: 1px solid #40516d;
+      border-radius: 18px;
+    }
+
+    .card-banner {
+      padding: 32px;
+      background: #174537;
+      border-bottom: 1px solid #437764;
+    }
+
+    .card-banner.purple {
+      background: #3a2854;
+      border-bottom-color: #785b96;
+    }
+
+    .card-banner p {
+      margin: 0;
+      color: #e0f6eb;
+      font-size: 24px;
+      font-weight: 700;
+      line-height: 1.4;
+    }
+
+    .card-banner.purple p {
+      color: #eee2ff;
+    }
+
+    .card-body {
+      padding: 28px;
+    }
+
+    .button {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 11px 18px;
+      background: #90ebc5;
+      border-radius: 8px;
+      color: #10281e;
+      font-size: 14px;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .button.purple {
+      background: #d1b2fa;
+      color: #2b173d;
+    }
+
+    .button:hover {
+      filter: brightness(1.1);
+    }
+
+    .about {
+      margin: 50px 0 65px;
+      padding: 30px;
+      background: #1b2939;
+      border: 1px solid #40516d;
+      border-radius: 18px;
+    }
+
+    .about p:last-child {
+      margin-bottom: 0;
+    }
+
+    section,
+    article {
+      scroll-margin-top: 25px;
+    }
+
+    .case-study {
+      padding: 60px 0;
+      border-top: 1px solid #40516d;
+    }
+
+    .case-heading {
+      max-width: 850px;
+      margin-bottom: 30px;
+    }
+
+    .meta {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 20px;
+      margin: 30px 0;
+      padding: 24px;
+      background: #192337;
+      border: 1px solid #40516d;
+      border-radius: 14px;
+    }
+
+    .meta strong {
+      display: block;
+      color: #ffffff;
+      font-size: 13px;
+    }
+
+    .meta span {
+      color: #c3cee0;
+      font-size: 14px;
+    }
+
+    .case-section {
+      max-width: 880px;
+      margin: 38px 0;
+    }
+
+    .callout {
+      margin: 24px 0;
+      padding: 24px;
+      background: #193b32;
+      border-left: 4px solid #90ebc5;
+      border-radius: 0 12px 12px 0;
+    }
+
+    .callout p {
+      margin: 0;
+      color: #e4fff0;
+      font-size: 18px;
+    }
+
+    .purple-callout {
+      background: #322640;
+      border-left-color: #d1b2fa;
+    }
+
+    .purple-callout p {
+      color: #f0e5ff;
+    }
+
+    .insight {
+      margin-bottom: 14px;
+      padding: 22px;
+      background: #192337;
+      border: 1px solid #40516d;
+      border-radius: 12px;
+    }
+
+    .insight h3 {
+      color: #b3f2d6;
+      font-size: 18px;
+    }
+
+    .insight p {
+      margin-bottom: 0;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      margin: 22px 0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+      text-align: left;
+    }
+
+    th, td {
+      padding: 15px;
+      border: 1px solid #40516d;
+      vertical-align: top;
+    }
+
+    th {
+      background: #26374f;
+      color: #ffffff;
+    }
+
+    td {
+      background: #172133;
+      color: #cbd5e6;
+    }
+
+    ul {
+      padding-left: 22px;
+      color: #c3cee0;
+    }
+
+    li {
+      margin-bottom: 10px;
+    }
+
+    .note {
+      color: #b3bfd3;
+      font-size: 13px;
+    }
+
+    .back {
+      display: inline-block;
+      margin-top: 14px;
+      font-size: 14px;
+    }
+
+    footer {
+      padding: 28px 0;
+      background: #151d2d;
+      border-top: 1px solid #36435b;
+    }
+
+    footer p {
+      margin: 0;
+      font-size: 13px;
+    }
+
+    @media (max-width: 700px) {
+      .hero {
+        padding: 48px 0 38px;
+      }
+
+      .grid,
+      .meta {
+        grid-template-columns: 1fr;
+      }
+
+      .lead {
+        font-size: 18px;
+      }
+
+      .card-banner,
+      .card-body,
+      .about {
+        padding: 24px;
+      }
+
+      .case-study {
+        padding: 42px 0;
+      }
+
+      .nav-links {
+        gap: 14px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+    }
+  </style>
+</head>
+
+<body id="top">
+
+  <header>
+    <nav class="container" aria-label="Main navigation">
+      <a class="brand" href="#top">Rahul Krishna Iyer</a>
+
+      <div class="nav-links">
+        <a href="#projects">Projects</a>
+        <a href="#prooffeed">ProofFeed</a>
+        <a href="#session-intent">Session Intent</a>
+        <a href="#about">About</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="container">
+
+    <section class="hero">
+      <div class="eyebrow">Product portfolio</div>
+
+      <h1>
+        Start with the problem.<br>
+        <span>Build with purpose.</span>
+      </h1>
+
+      <p class="lead">
+        I’m Rahul. I work across HR technology and business systems,
+        connecting user needs with practical product decisions.
+        My projects explore how people find information, assess it,
+        and decide what to do next.
+      </p>
+
+      <div class="tags">
+        <span class="tag">User research</span>
+        <span class="tag">Product discovery</span>
+        <span class="tag">Prioritization</span>
+        <span class="tag">Prototyping</span>
+      </div>
+    </section>
+
+    <section id="projects">
+      <div class="eyebrow">Independent product projects</div>
+      <h2>Selected work</h2>
+
+      <div class="grid">
+
+        <article class="project-card">
+          <div class="card-banner">
+            <p>What’s the original context?</p>
+          </div>
+
+          <div class="card-body">
+            <div class="eyebrow">01 / Trust & verification</div>
+            <h3>ProofFeed — Origin Check</h3>
+
+            <p>
+              Helping viewers investigate the context behind short-form
+              news without turning a quick check into a research project.
+            </p>
+
+            <div class="tags">
+              <span class="tag">Discovery</span>
+              <span class="tag">Verification concept</span>
+            </div>
+
+            <a class="button" href="#prooffeed">Read case study →</a>
+          </div>
+        </article>
+
+        <article class="project-card">
+          <div class="card-banner purple">
+            <p>Keep the session on task.</p>
+          </div>
+
+          <div class="card-body">
+            <div class="eyebrow">02 / Discovery & relevance</div>
+            <h3>Session Intent Anchor</h3>
+
+            <p>
+              Exploring how short-form discovery can stay connected
+              to what a viewer came to learn.
+            </p>
+
+            <div class="tags">
+              <span class="tag">Interview research</span>
+              <span class="tag">Concept exploration</span>
+            </div>
+
+            <a class="button purple" href="#session-intent">
+              Read case study →
+            </a>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <section class="about" id="about">
+      <div class="eyebrow">About me</div>
+      <h2>People, systems, and the decisions between them.</h2>
+
+      <p>
+        My background spans human resources and business systems.
+        At Kingston Health Sciences Centre, my work involves
+        understanding requirements, coordinating stakeholders,
+        and supporting changes across HR technology.
+      </p>
+
+      <p>
+        I bring that perspective to product discovery: understand
+        the workflow, identify the friction, and make the next
+        decision testable.
+      </p>
+    </section>
+
+    <!-- PROOFFEED: ALWAYS VISIBLE -->
+
+    <article class="case-study" id="prooffeed">
+
+      <div class="case-heading">
+        <div class="eyebrow">Case study 01 / ProofFeed</div>
+        <h2>A quick check. A clearer picture.</h2>
+
+        <p class="lead">
+          Origin Check explores whether showing the earliest known
+          appearance of footage can help people assess a short news
+          video’s context before believing or sharing its claim.
+        </p>
+      </div>
+
+      <div class="meta">
+        <div>
+          <strong>Focus</strong>
+          <span>Short-form news verification</span>
+        </div>
+        <div>
+          <strong>Target user</strong>
+          <span>Corroboration Checkers</span>
+        </div>
+        <div>
+          <strong>Stage</strong>
+          <span>Discovery and proposed validation</span>
+        </div>
+      </div>
+
+      <section class="case-section">
+        <div class="eyebrow">01 / Problem</div>
+        <h3>Real footage can still tell the wrong story.</h3>
+
+        <p>
+          A news-related short video can leave viewers unsure about
+          when it was recorded, where it happened, or whether its
+          caption matches the event shown. Resolving those questions
+          often means leaving the video and searching elsewhere.
+        </p>
+
+        <div class="callout">
+          <p>
+            Working problem framing: viewers who want corroboration
+            lack a quick way to connect the footage they are watching
+            with evidence about its original context.
+          </p>
+        </div>
+
+        <p>
+          The scope is consumer verification of short-form news,
+          particularly while watching or before sharing.
+        </p>
+      </section>
+
+      <section class="case-section">
+        <div class="eyebrow">02 / Research</div>
+        <h3>People check, but their stopping points differ.</h3>
+
+        <p>
+          Earlier interview discussions surfaced these qualitative
+          signals. They do not establish how common each behavior is
+          across the wider population.
+        </p>
+
+        <div class="insight">
+          <h3>Search is a common workaround.</h3>
+          <p>
+            Participants described using Google or YouTube to
+            investigate claims encountered in short videos.
+          </p>
+        </div>
+
+        <div class="insight">
+          <h3>Verification has a time limit.</h3>
+          <p>
+            Some described checking within about a minute;
+            another account involved 10–15 minutes of searching.
+          </p>
+        </div>
+
+        <div class="insight">
+          <h3>A familiar publisher can become a stopping point.</h3>
+          <p>
+            Matching coverage from established news outlets
+            served as a trust signal in some interview accounts.
+          </p>
+        </div>
+
+        <div class="insight">
+          <h3>Uncertainty does not always lead to checking.</h3>
+          <p>
+            Accounts also included ignoring a video or changing
+            a purchase decision without verification.
+          </p>
+        </div>
+
+        <p class="note">
+          Draft evidence summary: survey counts and final interview
+          coding are not reproduced here.
+        </p>
+      </section>
+
+      <section class="case-section">
+        <div class="eyebrow">03 / Product decision</div>
+        <h3>Focus on context that can inform a decision.</h3>
+
+        <p>
+          The proposed audience is Corroboration Checkers:
+          viewers who already want supporting evidence.
+          Origin Check focuses on footage history and
+          caption mismatches.
+        </p>
+
+        <p>
+          The hypothesis is that an accessible origin record will help
+          these viewers decide whether the footage supports the claim.
+          That connection still needs to be tested.
+        </p>
+      </section>
+
+      <section class="case-section">
+        <div class="eyebrow">04 / Proposed experience</div>
+        <h3>Bring the context beside the video.</h3>
+
+        <p>
+          An Origin Check action sits beside controls such as Like
+          and Share. It opens a compact record with the earliest
+          known appearance of the footage, available date and
+          location evidence, and potential caption mismatches.
+        </p>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Information</th>
+                <th scope="col">Question it helps answer</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Earliest known appearance</td>
+                <td>Has this footage appeared before?</td>
+              </tr>
+              <tr>
+                <td>Date and location evidence</td>
+                <td>Does the available context fit the current claim?</td>
+              </tr>
+              <tr>
+                <td>Caption mismatch</td>
+                <td>Is the footage being presented with conflicting context?</td>
+              </tr>
+              <tr>
+                <td>Traceable source</td>
+                <td>What evidence can I inspect myself?</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p>
+          “Earliest known” describes what the system has found.
+          It does not establish the first-ever upload or prove
+          every claim made in the video.
+        </p>
+      </section>
+
+      <section class="case-section">
+        <div class="eyebrow">05 / Validation plan</div>
+        <h3>Does the record change the decision?</h3>
+
+        <p>
+          Compare viewers shown an origin record with viewers
+          assessing the same material without one. Observe where
+          they stop checking, what conclusion they reach, and
+          which evidence influenced it.
+        </p>
+
+        <ul>
+          <li>
+            Measure time to a decision and accuracy against
+            established context.
+          </li>
+          <li>
+            Record the evidence used and any additional searches.
+          </li>
+          <li>
+            Track useful results and inconclusive results.
+          </li>
+          <li>
+            Set quantitative decision thresholds before testing.
+          </li>
+        </ul>
+
+        <div class="callout">
+          <p>
+            Treat the P0 as refuted if the record does not change
+            where users stop or how they reach a conclusion,
+            if they find it interesting but irrelevant to belief,
+            or if too many important videos return no useful result.
+          </p>
+        </div>
+
+        <p>
+          Open questions include footage coverage, source quality,
+          conflicting evidence, and the risk of misplaced confidence.
+          These are proposed tests, not achieved outcomes.
+        </p>
+      </section>
+
+      <section class="case-section">
+        <div class="eyebrow">06 / Learning</div>
+        <h3>Useful evidence must affect the user’s task.</h3>
+
+        <p>
+          An origin record can be informative without helping someone
+          assess a claim. The next step is to test whether it addresses
+          the uncertainty that actually makes people search.
+        </p>
+      </section>
+
+      <a class="back" href="#projects">↑ Back to projects</a>
+    </article>
+
+    <!-- SESSION INTENT ANCHOR: ALWAYS VISIBLE -->
+
+    <article class="case-study" id="session-intent">
+
+      <div class="case-heading">
+        <div class="eyebrow">Case study 02 / YouTube Shorts</div>
+        <h2>Keep discovery connected to the original task.</h2>
+
+        <p class="lead">
+          Exploring recommendation drift for viewers who open
+          short-form video with something specific to learn.
+        </p>
+      </div>
+
+      <div class="meta">
+        <div>
+          <strong>Target user</strong>
+          <span>Task-Oriented Seekers</span>
+        </div>
+        <div>
+          <strong>Research</strong>
+          <span>Five discovery interviews</span>
+        </div>
+        <div>
+          <strong>Stage</strong>
+          <span>Concept draft; validation pending</span>
+        </div>
+      </div>
+
+      <section class="case-section">
+        <div class="eyebrow">01 / Problem</div>
+        <h3>A relevant start does not guarantee a useful session.</h3>
+
+        <p>
+          A viewer may arrive with a specific question, find a
+          relevant short, and then encounter recommendations that
+          drift away from that task. Continuing to scroll becomes
+          less useful, prompting another search or a switch away.
+        </p>
+
+        <div class="callout purple-callout">
+          <p>
+            P0 from the discovery work: Task-Oriented Seekers switch
+            away because recommendations drift from what they
+            came to find.
+          </p>
+        </div>
+      </section>
+
+      <section class="case-section">
+        <div class="eyebrow">02 / Research</div>
+        <h3>Separate purposeful searching from browsing.</h3>
+
+        <p>
+          Five discovery interviews surfaced several themes.
+          The key distinction was the viewer’s intent:
+          entertainment and task completion do not necessarily
+          require the same experience.
+        </p>
+
+        <div class="insight">
+          <h3>Recommendation drift</h3>
+          <p>
+            The viewing sequence could move away from the topic
+            that initially brought the user in.
+          </p>
+        </div>
+
+        <div class="insight">
+          <h3>Retrieval workarounds</h3>
+          <p>
+            Research surfaced ways users tried to recover useful
+            information rather than relying on the feed alone.
+          </p>
+        </div>
+
+        <div class="insight">
+          <h3>Feedback and device friction</h3>
+          <p>
+            Inconsistent experiences with “Not Interested”
+            and device switching also appeared in the research.
+          </p>
+        </div>
+
+        <p class="note">
+          These are qualitative themes. Theme-level counts are
+          omitted because the final coding is not included
+          in this draft.
+        </p>
+      </section>
+
+      <section class="case-section">
+        <div class="eyebrow">03 / Prioritization</div>
+        <h3>Make progress on the task the focus.</h3>
+
+        <p>
+          The selected problem centers on Task-Oriented Seekers.
+          A useful intervention should help them find relevant
+          information and continue with purpose.
+        </p>
+
+        <p>
+          Watch time alone would not establish success.
+          A longer session could reflect useful exploration
+          or difficulty finding an answer.
+        </p>
+      </section>
+
+      <section class="case-section">
+        <div class="eyebrow">04 / Concept direction</div>
+        <h3>Make session intent explicit.</h3>
+
+        <p>
+          Session Intent Anchor explores keeping the viewer’s
+          current task visible and connected to subsequent discovery.
+          This high-level description is a draft; the detailed
+          interaction still needs to be aligned with the final
+          presentation.
+        </p>
+
+        <h3>Related exploration: Search-to-Shorts</h3>
+
+        <p>
+          Earlier work explored AI-curated 30–45 second previews
+          with timestamp links to the source video. That exploration
+          is related context, rather than evidence that Session
+          Intent Anchor has been validated.
+        </p>
+
+        <a
+          class="button purple"
+          href="https://key-moments-v2-508521412043.us-east1.run.app"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Open earlier prototype ↗
+        </a>
+      </section>
+
+      <section class="case-section">
+        <div class="eyebrow">05 / Proposed validation</div>
+        <h3>Test task progress and recommendation relevance.</h3>
+
+        <p>
+          Give participants a concrete information-seeking task.
+          Compare their experience with and without an explicit
+          session intent, using matched content conditions.
+        </p>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Measure</th>
+                <th scope="col">What it reveals</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Task completion</td>
+                <td>Whether viewers found the information they needed.</td>
+              </tr>
+              <tr>
+                <td>Perceived relevance</td>
+                <td>Whether subsequent content stayed connected to the task.</td>
+              </tr>
+              <tr>
+                <td>Search restarts and exits</td>
+                <td>Whether viewers still needed to restart or switch away.</td>
+              </tr>
+              <tr>
+                <td>Effort to express intent</td>
+                <td>Whether the added interaction was worth its cost.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p>
+          If users still lose relevance or find the added step
+          burdensome, the concept needs to be reconsidered.
+          No experiment results are claimed here.
+        </p>
+      </section>
+
+      <a class="back" href="#projects">↑ Back to projects</a>
+    </article>
+
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>
+        Rahul Krishna Iyer · Product portfolio ·
+        <a href="#top">Back to top ↑</a>
+      </p>
+    </div>
+  </footer>
+
+</body>
+</html>
